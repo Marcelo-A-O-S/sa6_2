@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criação de Tabelas</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="shortcut icon" href="https://icons8.com.br/icon/FXkyYLeAzrCO/book-shelf" type="image/x-icon">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            padding-top: 40px;
+        }
+        body, input, label, button {
+            color: #fff;
+        }
+    </style>
+</head>
+ <body>
+    <div class="container">
+        <h3 class="center-align">Insira os dados do Projeto</h3>
+        <div class="row">
+            <form id="cadastroProjetoForm" class="col s12">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="numeroCodigo" type="number" class="validate"> 
+                        <label for="numeroCodigo">Código? (De preferencia de apenas dois digitos)</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="qualAtividade" type="text" class="validate">
+                        <label for="qualAtividade">Atividade?</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="quemResponsavel" type="text" class="validate">
+                        <label for="quemResponsavel">Responsável?</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="tempoSprint" type="text" class="validate">
+                        <label for="tempoSprint">Tempo de Sprint?</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="projetoDependencia" type="text" class="validate">
+                        <label for="projetoDependencia">Dependência</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <button class="btn waves-effect waves-light" type="submit" name="action">Cadastrar Grupo
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.getElementById('cadastroProjetoForm');
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); 
+
+             
+                var codigo = document.getElementById('numeroCodigo').value;
+                var atividade = document.getElementById('qualAtividade').value;
+                var responsavel = document.getElementById('quemResponsavel').value;
+                var tempoSprint = document.getElementById('tempoSprint').value;
+                var dependencia = document.getElementById('projetoDependencia').value;
+
+            
+                if (codigo && atividade && responsavel && tempoSprint) {
+                    
+                    alert('Projeto cadastrado com sucesso!');
+                } else {
+                    alert('Por favor, preencha todos os campos obrigatórios.');
+                }
+            });
+        });
+    </script>
+ </body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planejamentos</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="shortcut icon" href="https://icons8.com.br/icon/FXkyYLeAzrCO/book-shelf" type="image/x-icon">
+    <style>
+        body {
+            background-color: #000000;
+            color: #fff;
+            padding-top: 40px;
+        }
+        h2 {
+            font-size: 23px; 
+            margin-bottom: 25px; 
+        }
+        .add-list-btn {
+            margin-top: 20px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="center-align">Bem Vindo ao <span id="nomeGrupo">nome do grupo</span></h2>
+
+        <section>
+            <table class="striped">
+                <thead>
+                    <tr>
+                        <th>Funções</th>
+                        <th>Membros da Equipe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>SCRUM Master</td>
+                        <td id="scrumMaster"></td>
+                    </tr>
+                    <tr>
+                        <td>Product Owner</td>
+                        <td id="productOwner"></td>
+                    </tr>
+                    <tr>
+                        <td>Equipe de Desenvolvimento</td>
+                        <td id="equipeDesenvolvimento"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2 class="center-align">Realize o gerenciamento do seu projeto aqui!</h2>
+            <h3>Golden:</h3>
+            <table class="striped">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Atividade</th>
+                        <th>Responsável</th>
+                        <th>Tempo de Sprint</th>
+                        <th>Dependência</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aqui você pode preencher a tabela com os dados do seu projeto -->
+                </tbody>
+            </table>
+        </section>
+
+        <div class="center-align add-list-btn">
+            <a class="waves-effect waves-light btn" href="CriarTabela.html">Adicionar Lista</a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Preenche o nome do grupo
+            var nomeGrupo = document.getElementById('nomeGrupo');
+            nomeGrupo.textContent = "(nome do grupo)";
+
+            // Preenche os membros do grupo
+            var scrumMaster = document.getElementById('scrumMaster');
+            scrumMaster.textContent = "(SCRUM Master)";
+
+            var productOwner = document.getElementById('productOwner');
+            productOwner.textContent = "(Product Owner)";
+
+            var equipeDesenvolvimento = document.getElementById('equipeDesenvolvimento');
+            equipeDesenvolvimento.textContent = "(Equipe de Desenvolvimento)";
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grupos</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="shortcut icon" href="https://icons8.com.br/icon/FXkyYLeAzrCO/book-shelf" type="image/x-icon">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            padding-top: 40px;
+        }
+        body, input, label, button {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section>
+            <h1 class="center-align">Entre no seu grupo!</h1>
+        </section>
+
+        <section>
+            <h3>Insira o nome do seu grupo</h3>
+            <form id="cadastroGrupoForm" class="col s12">
+                <div class="input-field">
+                    <input id="nomeGrupo" type="text" class="validate">
+                    <label for="nomeGrupo">Nome do Grupo</label>
+                </div>
+                <div class="input-field">
+                    <input id="senhaGrupo" type="password" class="validate">
+                    <label for="senhaGrupo">Senha do Grupo</label>
+                </div>
+                <button id="entrarBtn" class="btn waves-effect waves-light" type="button">Entrar
+                    <i class="material-icons right">send</i>
+                </button>
+            </form>
+        </section>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var entrarBtn = document.getElementById('entrarBtn');
+            entrarBtn.addEventListener('click', function() {
+                var nomeGrupo = document.getElementById('nomeGrupo').value;
+                var senhaGrupo = document.getElementById('senhaGrupo').value;
+                
+                // Verifica se o nome do grupo e a senha estão preenchidos
+                if (nomeGrupo && senhaGrupo) {
+                    // Redireciona para a página GerenciamentoTabela.html
+                    window.location.href = 'GerenciamentoTabela.html';
+                } else {
+                    alert('Por favor, insira o nome do grupo e a senha.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
