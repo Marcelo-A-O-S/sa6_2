@@ -50,11 +50,15 @@
                 var nomeGrupo = document.getElementById('nomeGrupo').value;
                 var senhaGrupo = document.getElementById('senhaGrupo').value;
                 
-                // Verifica se o nome do grupo e a senha estão preenchidos
-                if (nomeGrupo && senhaGrupo) {
-                    // Redireciona para a página GerenciamentoTabela.html
+                var storedNomeGrupo = localStorage.getItem('nomeGrupo');
+                var storedSenhaGrupo = localStorage.getItem('senhaGrupo');
+                
+                if (nomeGrupo === storedNomeGrupo && senhaGrupo === storedSenhaGrupo) {
                     window.location.href = 'GerenciamentoTabela.html';
-                } else {
+                
+                }
+                
+                else {
                     alert('Por favor, insira o nome do grupo e a senha.');
                 }
             });

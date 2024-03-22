@@ -82,7 +82,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             var form = document.getElementById('cadastroGrupoForm');
             form.addEventListener('submit', function(event) {
-                event.preventDefault(); // Evitar o envio padrão do formulário
+                event.preventDefault(); 
                 var nomeGrupo = document.getElementById('nomeGrupo').value;
                 var senhaGrupo = document.getElementById('senhaGrupo').value;
                 var gerenciaProjeto = document.getElementById('gerenciaProjeto').value;
@@ -92,8 +92,15 @@
                 var descricaoGrupo = document.getElementById('descricaoGrupo').value;
     
                 if (nomeGrupo && senhaGrupo && gerenciaProjeto && scrumMaster && productOwner && equipeDesenvolvimento && descricaoGrupo) {
+                    window.location.href = 'EntrarGrupo.html';           
+                   
+                    localStorage.setItem('nomeGrupo', nomeGrupo);
+                    localStorage.setItem('senhaGrupo', senhaGrupo);
+                    alert('Grupo criado com sucesso!')
+
                     window.location.href = 'EntrarGrupo.html';
-                } else {
+                }
+                else {
                     alert('Por favor, preencha todos os campos obrigatórios.');
                 }
             });

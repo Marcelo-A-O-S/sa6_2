@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Projeto</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="shortcut icon" href="https://icons8.com.br/icon/FXkyYLeAzrCO/book-shelf" type="image/x-icon">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            padding-top: 40px;
+        }
+        body, input, label, button {
+            color: #fff;
+        }
+    </style>
+<body>
+    <div class="container">
+        <h3 class="center-align">Editar Projeto</h3>
+        <form id="editarProjetoForm">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="qualAtividade" type="text" class="validate">
+                    <label for="qualAtividade"> Qual Atividade?</label>
+                </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="quemResponsavel" type="text" class="validate">
+                    <label for="quemResponsavel">Responsável?</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="tempoSprint" type="text">
+                    <label for="tempoSprint">Tempo de Sprint</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="projetoDependencia" type="text" class="validate">
+                    <label for="projetoDependencia">Dependência</label>
+                </div>
+            </div>
+            <button id="submitBtn" class="btn waves-effect waves-light" type="submit" name="action">Salvar Alterações
+                <i class="material-icons right">send</i>
+            </button>
+        </form>
+    </div>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const numeroCodigo = urlParams.get('numeroCodigo');
+        const qualAtividade = urlParams.get('qualAtividade');
+        const quemResponsavel = urlParams.get('quemResponsavel');
+        const tempoSprint = urlParams.get('tempoSprint');
+        const projetoDependencia = urlParams.get('projetoDependencia');
+
+        document.getElementById('numeroCodigo').value = numeroCodigo;
+        document.getElementById('qualAtividade').value = qualAtividade;
+        document.getElementById('quemResponsavel').value = projetoResponsavel;
+        document.getElementById('tempoSprint').value = tempoSprint;
+        document.getElementById('projetoDependencia').value = projetoDependencia;
+
+    
+       window.location.href = `TabelaGerenciamento.html?numeroCodigo=${numeroCodigo}&qualAtividade=${encodeURIComponent(qualAtividade)}&quemResponsavel=${encodeURIComponent(quemResponsavel)}&tempoSprint=${encodeURIComponent(tempoSprint)}&projetoDependencia=${encodeURIComponent(projetoDependencia)}`;
+});
+
+
+
+
+    </script>
+    
+</body>
+</html>

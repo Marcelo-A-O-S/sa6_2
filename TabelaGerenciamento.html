@@ -30,9 +30,6 @@
             <table class="striped">
                 <thead>
                     <tr>
-                        
-                    </tr>
-                    <tr>
                         <th>Funções</th>
                         <th>Membros da Equipe</th>
                     </tr>
@@ -68,8 +65,9 @@
                         <th>Ações</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- Aqui você pode preencher a tabela com os dados do seu projeto -->
+                <tbody id="tabelaProjetos">
+
+                 
                 </tbody>
             </table>
         </section>
@@ -82,13 +80,33 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-         
+           
+            
+            function editarProjeto(numeroCodigo, qualAtividade, quemResponsavel, tempoSprint, projetoDependencia) {
+                window.location.href = `EditarProjeto.html?numeroCodigo=${numeroCodigo}&qualAtividade=${encodeURIComponent(qualAtividade)}&quemResponsavel=${encodeURIComponent(quemResponsavel)}&tempoSprint=${encodeURIComponent(tempoSprint)}&projetoDependencia=${encodeURIComponent(projetoDependencia)}`;
+
+
+            }
+
+
+            var tabelaProjetos = document.getElementById('tabelaProjetos');
+            var newRow = tabelaProjetos.insertRow();
+            newRow.innerHTML = `
+                <td>${dadosProjeto.numeroCodigo}</td>
+                <td>${dadosProjeto.qualAtividade}</td>
+                <td>${dadosProjeto.quemResponsavel}</td>
+                <td>${dadosProjeto.tempoSprint}</td>
+                <td>${dadosProjeto.projetoDependencia}</td>
+                <td>
+                    <button onclick="editarProjeto(${dadosProjeto.numeroCodigo}, '${dadosProjeto.qualAtividade}', '${dadosProjeto.quemResponsavel}', '${dadosProjeto.tempoSprint}', '${dadosProjeto.projetoDependencia}')" class="btn">Editar</button>
+                    <button onclick="removerProjeto(${dadosProjeto.numeroCodigo})" class="btn red">Remover</button>
+                </td>
+            `;
+
+      
             var nomeGrupo = document.getElementById('nomeGrupo');
             nomeGrupo.textContent = "(nome do grupo)";
 
-            var gerenciaProjeto = document.getElemevarntById('gerenciaProjeto');
-            gerenciaProjeto.textContent = "(gerenciaProjeto)";
-          
             var scrumMaster = document.getElementById('scrumMaster');
             scrumMaster.textContent = "(SCRUM Master)";
 
@@ -97,24 +115,8 @@
 
             var equipeDesenvolvimento = document.getElementById('equipeDesenvolvimento');
             equipeDesenvolvimento.textContent = "(Equipe de Desenvolvimento)";
-
-            var numeroCodigo= document.getElementById('numeroCodigo');
-            numeroCodigo.textContent = "(numeroCodigo)";
-
-            var qualAtividade = document.getElemevarntById('qualAtividade');
-            qualAtividade.textContent = "(qualAtividade)";
-          
-            var quemResponsavel = document.getElementById('quemResposavel');
-            quemResponsavel.textContent = "(quemResponsavel)";
-
-            var tempoSprint = document.getElementById('tempoSprint');
-            tempoSprint.textContent = "(tempoSprint)";
-
-            var projetoDependencia = document.getElementById('projetoDependencia');
-            projetoDependencia.textContent = "(projetoDependencia)";
-
-            
         });
     </script>
 </body>
 </html>
+
