@@ -71,15 +71,15 @@
                 event.preventDefault(); 
 
              
-                var codigo = document.getElementById('numeroCodigo').value;
-                var atividade = document.getElementById('qualAtividade').value;
-                var responsavel = document.getElementById('quemResponsavel').value;
+                var numeroCodigo = document.getElementById('numeroCodigo').value;
+                var qualAtividade = document.getElementById('qualAtividade').value;
+                var quemResponsavel = document.getElementById('quemResponsavel').value;
                 var tempoSprint = document.getElementById('tempoSprint').value;
-                var dependencia = document.getElementById('projetoDependencia').value;
+                var projetoDependencia = document.getElementById('projetoDependencia').value;
 
             
-                if (codigo && atividade && responsavel && tempoSprint) {
-                    
+                if (numeroCodigo && qualAtividade && quemResponsavel && tempoSprint && projetoDependencia) {
+                       
                     alert('Projeto cadastrado com sucesso!');
                 } else {
                     alert('Por favor, preencha todos os campos obrigatórios.');

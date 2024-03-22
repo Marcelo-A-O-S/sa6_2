@@ -24,11 +24,14 @@
 </head>
 <body>
     <div class="container">
-        <h2 class="center-align">Bem Vindo ao <span id="nomeGrupo">nome do grupo</span></h2>
+        <h2 class="center-align">Bem Vindo ao <span id="nomeGrupo"> </span></h2>
 
         <section>
             <table class="striped">
                 <thead>
+                    <tr>
+                        
+                    </tr>
                     <tr>
                         <th>Funções</th>
                         <th>Membros da Equipe</th>
@@ -53,7 +56,7 @@
 
         <section>
             <h2 class="center-align">Realize o gerenciamento do seu projeto aqui!</h2>
-            <h3>Golden:</h3>
+            <h3><span id="gerenciaProjeto"> </span></h3>
             <table class="striped">
                 <thead>
                     <tr>
@@ -72,18 +75,20 @@
         </section>
 
         <div class="center-align add-list-btn">
-            <a class="waves-effect waves-light btn" href="CriarTabela.html">Adicionar Lista</a>
+            <a class="waves-effect waves-light btn" href="CriarTabela.html">Adicionar</a>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Preenche o nome do grupo
+         
             var nomeGrupo = document.getElementById('nomeGrupo');
             nomeGrupo.textContent = "(nome do grupo)";
 
-            // Preenche os membros do grupo
+            var gerenciaProjeto = document.getElemevarntById('gerenciaProjeto');
+            gerenciaProjeto.textContent = "(gerenciaProjeto)";
+          
             var scrumMaster = document.getElementById('scrumMaster');
             scrumMaster.textContent = "(SCRUM Master)";
 
@@ -92,6 +97,23 @@
 
             var equipeDesenvolvimento = document.getElementById('equipeDesenvolvimento');
             equipeDesenvolvimento.textContent = "(Equipe de Desenvolvimento)";
+
+            var numeroCodigo= document.getElementById('numeroCodigo');
+            numeroCodigo.textContent = "(numeroCodigo)";
+
+            var qualAtividade = document.getElemevarntById('qualAtividade');
+            qualAtividade.textContent = "(qualAtividade)";
+          
+            var quemResponsavel = document.getElementById('quemResposavel');
+            quemResponsavel.textContent = "(quemResponsavel)";
+
+            var tempoSprint = document.getElementById('tempoSprint');
+            tempoSprint.textContent = "(tempoSprint)";
+
+            var projetoDependencia = document.getElementById('projetoDependencia');
+            projetoDependencia.textContent = "(projetoDependencia)";
+
+            
         });
     </script>
 </body>
