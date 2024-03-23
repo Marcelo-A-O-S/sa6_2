@@ -4,42 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="https://icons8.com.br/icon/FXkyYLeAzrCO/book-shelf" type="image/x-icon">
-    <title>Room</title>
+
+ <title>Room</title>
     <style>
         body {
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-            background-color: #000;
-            color: #fff;
+            background-color: #000000;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url(93b31d95-1e7e-4bb2-bc66-54d26c6dddcd.jpeg);
+            background-size: cover;
+            background-position: center;
         }
 
         .container {
             width: 80%;
             margin: 0 auto;
             padding: 20px;
+            text-align: center;
         }
 
         header {
+            margin-bottom: 30px;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding-top: 0%;
+        }
+
+        .subtitle {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
             text-align: center;
-            margin-bottom: 20px;
+            width: 100%;
         }
 
-        section {
-            margin-bottom: 20px;
+
+        h1{
+            color: #fff;
         }
 
-        h1 {
-            margin-bottom: 10px;
+        h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #ffffff;
         }
 
         p {
-            margin-bottom: 10px;
+            font-size: 18px;
+            margin-bottom: 18px;
         }
 
-        a {
-            color: #fff;
-            text-decoration: none;
+        h4 {
+            font-size: 24px;
+            margin-bottom: 10px;
         }
 
         button {
@@ -49,6 +74,8 @@
             border: none;
             cursor: pointer;
             border-radius: 5px;
+            font-size: 18px;
+            margin-right: 10px;
         }
 
         button:hover {
@@ -60,9 +87,11 @@
 <body>
     <div class="container">
         <header>
-            <div id="item-navbar"></div>
-            <h2>Bem-vindo ao Room da companhia</h2>
+            <h1>Room</h1>
         </header>
+        <div class="subtitle">
+            <h2>Bem-vindo ao Room da Companhia</h2>
+        </div>
         <main>
             <section>
                 <p>Buscando trazer praticidade e versatilidade para a nossa empresa, decidimos criar a room.</p>

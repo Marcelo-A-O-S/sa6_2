@@ -12,20 +12,63 @@
             background-color: #000;
             color: #fff;
             padding-top: 40px;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url(e259394e-7016-4532-8c04-2772f7f8a87b.jpeg);
+            background-size: cover;
+            background-position: center;;
         }
-        body, input, label, button {
+        
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h3, h4 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        input[type="text"], input[type="password"] {
             color: #fff;
+            border-bottom: 1px solid #fff;
+        }
+
+        label {
+            color: #fff;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <section>
-            <h1 class="center-align">Entre no seu grupo!</h1>
+            <h3>Entre no seu grupo!</h3>
         </section>
 
         <section>
-            <h3>Insira o nome do seu grupo</h3>
+            <h4>Insira o nome do seu grupo</h4>
             <form id="cadastroGrupoForm" class="col s12">
                 <div class="input-field">
                     <input id="nomeGrupo" type="text" class="validate">
