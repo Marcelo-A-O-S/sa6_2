@@ -1,11 +1,11 @@
-use crate::{prelude::W, utils::macros::map};
+use crate::utils::macros::map;
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::{collections::BTreeMap, sync::Arc};
-use chrono::{DateTime, Utc};
 use surrealdb::{
-        dbs::{Response, Session},
-        kvs::Datastore,
-        sql::{thing, Array, Object, Value},
+    dbs::{Response, Session},
+    kvs::Datastore,
+    sql::{thing, Value},
 };
 
 
@@ -140,7 +140,7 @@ impl DB {
         Ok(res)
     }
 
-    pub async fn add_grupo(&self, nome_grupo: String) -> Result<Object, crate::error::Error> {
+    pub async fn add_grupo(&self, nome_grupo: String) -> Result<serde_json::Value, crate::error::Error> {
         let sql = "CREATE grupo SET nome_grupo = $nomeGrupo, senha_grupo = $senhaGrupo, gerencia_projeto = $gerenciaProjeto, scrum_master = $scrumMaster, product_owner = $productOwner, equipe_dev = $equipeDev, descricao_grupo = $descricaoGrupo";
         let vars: BTreeMap<String, Value> =
             map!["nomeGrupo".into() => Value::Strand(nome_grupo.into())];
@@ -149,41 +149,39 @@ impl DB {
 
         let first_res = ress.into_iter().next().expect("não recebeu resposta");
 
-        W(first_res.result?.first()).try_into()
+        Ok(first_res.result?.into_json())
     }
 
-    pub async fn login_grupo(&self, nome: String, senha: String) -> Result<Object, crate::error::Error> {
+    pub async fn login_grupo(&self, nome: String, senha: String) -> Result<serde_json::Value, crate::error::Error> {
         let sql = "SELECT * FROM grupo WHERE nome_grupo = $nomeGrupo AND senha_grupo = $senhaGrupo";
         let vars: BTreeMap<String, Value> = map!["nome_grupo".into() => Value::Strand(nome.into()), "senha_grupo".into() => Value::Strand(senha.into())];
         let ress = self.execute(sql, Some(vars));
 
         let first_res = ress.into_iter().next().expect("não recebeu resposta");
 
-        W(first_res.result?.first()).try_into()
+        Ok(first_res.result?.into_json())
     }
 
-    pub async fn add_projeto(&self, numero_codigo: String) -> Result<Object, crate::error::Error> {
+    pub async fn add_projeto(&self, numero_codigo: String) -> Result<serde_json::Value, crate::error::Error> {
         let sql = "CREATE projeto SET numero_codigo = $numeroCodigo, pertence_grupo = $pertenceGrupo, qual_atividade = $qualAtividade, quem_responsavel = $quemResponsavel, tempo_sprint = $tempoSprint, projeto_dependencia = $projetoDependencia";
         let vars: BTreeMap<String, Value> =
             map!["numero_codigo".into() => Value::Strand(numero_codigo.into())];
-        let ress = self.execute(sql, Some(vars)).await?;
+        let res = self.execute(sql, Some(vars)).await?;
 
-        let first_res = ress.into_iter().next().expect("não recebeu resposta");
+        let first_res = res.into_iter().next().expect("não recebeu resposta");
 
-        W(first_res.result?.first()).try_into()
+        Ok(first_res.result?.into_json())
     }
 
-    pub async fn get_all_projetos(&self) -> Result<Vec<Object>, crate::error::Error> {
-        let sql = "SELECT * FROM projeto ORDER BY numero_codigo ASC";
+    pub async fn get_all_projetos(&self) -> Result<serde_json::Value, crate::error::Error> {
+        let sql = "SELECT * FROM projeto ORDER BY hora_criacao ASC";
 
         let res = self.execute(sql, None).await?;
 
         let first_res = res.into_iter().next().expect("não recebeu resposta");
 
 
-        let array: Array = W(first_res.result?).try_into()?;
-
-        array.into_iter().map(|value| W(value).try_into()).collect()
+        Ok(first_res.result?.into_json())
     }
 
 
