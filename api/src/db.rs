@@ -17,13 +17,29 @@ use surrealdb::{
 pub struct Grupo {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub id: Option<String>,
+
+    #[serde(rename = "nomeGrupo")]
     pub nome_grupo: String,
+
+    #[serde(rename = "senhaGrupo")]
     pub senha_grupo: String,
+
+    #[serde(rename = "gerenciaProjeto")]
     pub gerencia_projeto: String,
+
+    #[serde(rename = "scrumMaster")]
     pub scrum_master: String,
+
+    #[serde(rename = "productOwner")]
     pub product_owner: String,
+
+    #[serde(rename = "equipeDev")]
     pub equipe_dev: String,
+
+    #[serde(rename = "descricaoGrupo")]
     pub descricao_grupo: String,
+
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub hora_criacao: Option<DateTime<Utc>>,
 
@@ -64,16 +80,31 @@ impl Creatable for Grupo {}
 pub struct Projeto {
     #[serde(skip_serializing_if = "Option::is_none")]
     id: Option<String>,
+
+    #[serde(rename = "numeroCodigo")]
     numero_codigo: String,
+
+    #[serde(rename = "pertenceGrupo")]
     pertence_grupo: String,
+
+    #[serde(rename = "qualAtividade")]
     qual_atividade: String,
+
+    #[serde(rename = "quemResponsavel")]
     quem_responsavel: String,
+
+    #[serde(rename = "tempoSprint")]
     tempo_sprint: String,
+
+    #[serde(rename = "projetoDependencia")]
     projeto_dependencia: String,
+
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub hora_criacao: Option<DateTime<Utc>>,
 
 }
+
 
 impl From<Projeto> for Value {
     fn from(val: Projeto) -> Self {
@@ -139,10 +170,12 @@ impl DB {
         Ok(res)
     }
 
-    pub async fn add_grupo(&self, nome_grupo: &str) -> Result<serde_json::Value, crate::error::Error> {
+    pub async fn add_grupo(&self, nome_grupo: Grupo) -> Result<serde_json::Value, crate::error::Error> {
         let sql = "CREATE grupo SET nome_grupo = $nome_grupo, senha_grupo = $senha_grupo, gerencia_projeto = $gerencia_projeto, scrum_master = $scrum_master, product_owner = $product_owner, equipe_dev = $equipe_dev, descricao_grupo = $descricao_grupo";
+        let serialized = serde_json::to_string(&nome_grupo).unwrap();
+
         let vars: BTreeMap<String, Value> =
-            map!["nome_grupo".into() => Value::Strand(nome_grupo.into())];
+            map!["nome_grupo".into() => Value::Strand(serialized.into())];
 
         let res = self.execute(sql, Some(vars)).await?;
 
@@ -151,34 +184,35 @@ impl DB {
         Ok(first_res.result?.into_json())
     }
 
-    pub async fn login_grupo(&self, username: &str, password: String) -> Result<serde_json::Value, crate::error::Error> {
-        // 1. Build the login query
+    pub async fn login_grupo(&self, username: &str, password: &str) -> Result<serde_json::Value, crate::error::Error> {
         let sql = "SELECT * FROM usuario WHERE username = $username AND password = $password";
         let vars: BTreeMap<String, Value> = map![
         "username".into() => Value::Strand(username.into()),
-        "password".into() => Value::Strand(password.into()), // Consider hashing password before storing
+        "password".into() => Value::Strand(password.into()), // daria pra fazer um hash para a senha mas, vaffaculo?
     ];
 
-        // 2. Execute the query and handle errors
         let res = self.execute(sql, Some(vars)).await?;
 
-        // 3. Check for successful login (at most one valid user)
         let first_res = res.into_iter().next().expect("nome do grupo ou senha invalida");
 
         Ok(first_res.result?.into_json())
     }
 
 
-        pub async fn add_projeto(&self, numero_codigo: &str) -> Result<serde_json::Value, crate::error::Error> {
+        pub async fn add_projeto(&self, projeto: Projeto) -> Result<serde_json::Value, crate::error::Error> {
         let sql = "CREATE projeto SET numero_codigo = $numeroCodigo, pertence_grupo = $pertenceGrupo, qual_atividade = $qualAtividade, quem_responsavel = $quemResponsavel, tempo_sprint = $tempoSprint, projeto_dependencia = $projetoDependencia";
+            let serialized = serde_json::to_string(&projeto).unwrap();
+
         let vars: BTreeMap<String, Value> =
-            map!["numero_codigo".into() => Value::Strand(numero_codigo.into())];
+            map!["numero_codigo".into() => Value::Strand(serialized.into())];
         let res = self.execute(sql, Some(vars)).await?;
 
         let first_res = res.into_iter().next().expect("não recebeu resposta");
 
         Ok(first_res.result?.into_json())
     }
+
+
 
     pub async fn get_all_projetos(&self) -> Result<serde_json::Value, crate::error::Error> {
         let sql = "SELECT * FROM projeto ORDER BY hora_criacao ASC";
