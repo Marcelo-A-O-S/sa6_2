@@ -115,19 +115,18 @@ pub struct AffectedRows {
     pub rows_affected: u64,
 }
 
+
+
+
 pub trait Creatable: Into<Value> {}
 
 
 
 
-
-
-
-
-
+#[derive(Clone)]
 pub struct DB {
-    pub ds: Arc<Datastore>,
-    pub sesh: Session,
+    pub datastore: Arc<Datastore>,
+    pub session: Session,
 }
 
 impl DB {
@@ -136,33 +135,41 @@ impl DB {
         query: &str,
         vars: Option<BTreeMap<String, Value>>,
     ) -> Result<Vec<Response>, crate::error::Error> {
-        let res = self.ds.execute(query, &self.sesh, vars).await?;
+        let res = self.datastore.execute(query, &self.session, vars).await?;
         Ok(res)
     }
 
-    pub async fn add_grupo(&self, nome_grupo: String) -> Result<serde_json::Value, crate::error::Error> {
-        let sql = "CREATE grupo SET nome_grupo = $nomeGrupo, senha_grupo = $senhaGrupo, gerencia_projeto = $gerenciaProjeto, scrum_master = $scrumMaster, product_owner = $productOwner, equipe_dev = $equipeDev, descricao_grupo = $descricaoGrupo";
+    pub async fn add_grupo(&self, nome_grupo: &str) -> Result<serde_json::Value, crate::error::Error> {
+        let sql = "CREATE grupo SET nome_grupo = $nome_grupo, senha_grupo = $senha_grupo, gerencia_projeto = $gerencia_projeto, scrum_master = $scrum_master, product_owner = $product_owner, equipe_dev = $equipe_dev, descricao_grupo = $descricao_grupo";
         let vars: BTreeMap<String, Value> =
-            map!["nomeGrupo".into() => Value::Strand(nome_grupo.into())];
+            map!["nome_grupo".into() => Value::Strand(nome_grupo.into())];
 
-        let ress = self.execute(sql, Some(vars));
+        let res = self.execute(sql, Some(vars)).await?;
 
-        let first_res = ress.into_iter().next().expect("não recebeu resposta");
-
-        Ok(first_res.result?.into_json())
-    }
-
-    pub async fn login_grupo(&self, nome: String, senha: String) -> Result<serde_json::Value, crate::error::Error> {
-        let sql = "SELECT * FROM grupo WHERE nome_grupo = $nomeGrupo AND senha_grupo = $senhaGrupo";
-        let vars: BTreeMap<String, Value> = map!["nome_grupo".into() => Value::Strand(nome.into()), "senha_grupo".into() => Value::Strand(senha.into())];
-        let ress = self.execute(sql, Some(vars));
-
-        let first_res = ress.into_iter().next().expect("não recebeu resposta");
+        let first_res = res.into_iter().next().expect("não recebeu resposta");
 
         Ok(first_res.result?.into_json())
     }
 
-    pub async fn add_projeto(&self, numero_codigo: String) -> Result<serde_json::Value, crate::error::Error> {
+    pub async fn login_grupo(&self, username: &str, password: String) -> Result<serde_json::Value, crate::error::Error> {
+        // 1. Build the login query
+        let sql = "SELECT * FROM usuario WHERE username = $username AND password = $password";
+        let vars: BTreeMap<String, Value> = map![
+        "username".into() => Value::Strand(username.into()),
+        "password".into() => Value::Strand(password.into()), // Consider hashing password before storing
+    ];
+
+        // 2. Execute the query and handle errors
+        let res = self.execute(sql, Some(vars)).await?;
+
+        // 3. Check for successful login (at most one valid user)
+        let first_res = res.into_iter().next().expect("nome do grupo ou senha invalida");
+
+        Ok(first_res.result?.into_json())
+    }
+
+
+        pub async fn add_projeto(&self, numero_codigo: &str) -> Result<serde_json::Value, crate::error::Error> {
         let sql = "CREATE projeto SET numero_codigo = $numeroCodigo, pertence_grupo = $pertenceGrupo, qual_atividade = $qualAtividade, quem_responsavel = $quemResponsavel, tempo_sprint = $tempoSprint, projeto_dependencia = $projetoDependencia";
         let vars: BTreeMap<String, Value> =
             map!["numero_codigo".into() => Value::Strand(numero_codigo.into())];
@@ -185,7 +192,7 @@ impl DB {
     }
 
 
-    pub async fn delete_projeto(&self, id: &str) -> Result<AffectedRows, crate::error::Error> {
+    pub async fn deletar_projeto(&self, id: &str) -> Result<AffectedRows, crate::error::Error> {
         let sql = "Delete $th";
         let tid = format!("{}", id);
         let vars: BTreeMap<String, Value> = map!["th".into() => thing(&tid)?.into()];
