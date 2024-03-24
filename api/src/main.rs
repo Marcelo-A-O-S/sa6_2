@@ -94,7 +94,7 @@ async fn rocket() -> _ {
     rocket::build()
         .mount(
             "/",
-                routes![get_all_projetos, deletar_projeto, add_projeto, add_grupo, get_grupo]
+                routes![get_all_projetos, deletar_projeto, add_projeto, add_grupo, get_grupo, update_projeto]
         )
         .attach(CORS)
         .manage(db)
