@@ -9,14 +9,4 @@ export class Apigetgrupo{
         return getGrupo; 
 
     }
-
-    async getAcademiaBynomeGrupo(nomeGrupo){
-        let Grupos = [];
-        Grupos = await fetch(`/Frontend/src/js/data/DataAcademias.json?nomeGrupo=${nomeGrupo}`)
-        .then((response)=>{
-            return response.json();
-        })
-        return ;
-
-}
 }

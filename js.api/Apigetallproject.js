@@ -8,5 +8,5 @@ export class Apigetallproject{
 
         return gerenciamento; 
 
-}
+  }
 }

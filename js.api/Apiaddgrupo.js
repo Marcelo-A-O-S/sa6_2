@@ -7,21 +7,6 @@ export class Apiaddgrupos {
                 return response.json()
             });
         return Grupo;
-    }
-    async createGrupos(grupo) {
-        console.log(JSON.stringify(grupo))
-        await fetch("", {
-            body: JSON.stringify(grupo),
-            method: 'POST',
-            mode: "no-cors",
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then((response) => response.json())
-            .then((data) => { console.log(data) })
-            .catch((err) => {
-                console.log(err)
-            })
 
     }
 }
