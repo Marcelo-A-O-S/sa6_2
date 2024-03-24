@@ -1,11 +1,11 @@
 export class Apiaddgrupos {
     async getApiaddgrupos(grupo_input) {
         try {
-            let Grupo = await fetch(`http://127.0.0.1:6969/grupo/${grupo_input}`, {
+            let response = await fetch(`http://127.0.0.1:6969/projeto/${grupo_input}`, {
                 method: "POST"
             });
 
-            if (Grupo.ok) {
+            if (response.ok) {
                 let data = await response.json();
                 return data;
             } else {
@@ -17,4 +17,5 @@ export class Apiaddgrupos {
         }
     }
 }
+
 
