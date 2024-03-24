@@ -1,20 +1,13 @@
-export class Apiaddtabela {
-        async getApiaddtabela(projeto_input) {
-            try {
-                let response = await fetch(`http://127.0.0.1:6969/projeto/${projeto_input}`, {
-                    method: "POST"
-                });
+export class Apiaddtabela{
+        async getApiaddtabela(){
+            let Tabela = await fetch ("http://127.0.0.1:6969/grupo/<grupo_input>")
+            method: "GET"
+            .then( (response) => {
+                return response.json()
+            })
     
-                if (response.ok) {
-                    let data = await response.json();
-                    return data;
-                } else {
-                    throw new Error('Erro ao fazer a solicitação: ' + response.status);
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                return null; 
-            }
+            return Tabela; 
+    
         }
     }
     
