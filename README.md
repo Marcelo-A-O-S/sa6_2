@@ -33,10 +33,10 @@ Linguagens de Programação: Javascript e Rust
 Banco de Dados: MySQL Workbeanch
 Modelo de Geranciamento do Projeto: SCRUM
 
-Código Fonte: 
+Código Fonte: [text](https://github.com/Marcelo-A-O-S/sa6_2.git)
 
-Front-end: 
+Front-end: [text](https://github.com/Marcelo-A-O-S/sa6_2/tree/main/web)
 
-Back-end: 
+Api: [text](https://github.com/Marcelo-A-O-S/sa6_2/tree/main/api)
 
-Banco de Dados:
+Banco de Dados: [text](https://github.com/Marcelo-A-O-S/sa6_2/blob/main/api/src/db.rs)

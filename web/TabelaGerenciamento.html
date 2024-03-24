@@ -65,9 +65,8 @@
                         <th>Ações</th>
                     </tr>
                 </thead>
-                <tbody id="tabelaProjetos">
-
-                 
+                <tbody id = tabelaProjetos >
+ 
                 </tbody>
             </table>
         </section>
@@ -79,6 +78,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
+      import {gerenciamento} from "../api/Apigetallproject.js"
+      import {deletar} from "../api/Apideletarproject.js"  
+
         document.addEventListener('DOMContentLoaded', function() {
            
             
