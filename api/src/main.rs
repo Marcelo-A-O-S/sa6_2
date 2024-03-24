@@ -17,7 +17,7 @@ use rocket::http::Status;
 
 
 
-#[patch("/projeto/<projeto_input>")]
+#[patch("/projeto", format = "json", data = "<projeto_input>")]
 async fn update_projeto(projeto_input: &str, db: &State<DB>) -> Result<serde_json::Value, std::io::Error> {
 
     let deserialized: Projeto = serde_json::from_str(projeto_input).unwrap();
@@ -29,11 +29,10 @@ async fn update_projeto(projeto_input: &str, db: &State<DB>) -> Result<serde_jso
     Ok(tasks)
 }
 
-#[post("/grupo/<grupo_input>")]
+#[post("/grupo", format = "json", data = "<grupo_input>")]
 async fn add_grupo(grupo_input: &str, db: &State<DB>) -> Result<serde_json::Value, std::io::Error> {
 
     let deserialized: Grupo = serde_json::from_str(grupo_input).unwrap();
-
     let tasks = db
         .add_grupo(deserialized)
         .await
@@ -41,7 +40,7 @@ async fn add_grupo(grupo_input: &str, db: &State<DB>) -> Result<serde_json::Valu
     Ok(tasks)
 }
 
-#[get("/grupo/<nome>/<senha>")]
+#[get("/get_grupo/<nome>/<senha>", format="json")]
 async fn get_grupo(nome: &str, senha: &str, db: &State<DB>) -> Result<serde_json::Value, std::io::Error> {
     let tasks = db
         .login_grupo(nome, senha)
@@ -51,7 +50,7 @@ async fn get_grupo(nome: &str, senha: &str, db: &State<DB>) -> Result<serde_json
 }
 
 
-#[post("/projeto/<projeto_input>")]
+#[post("/projeto", format = "json", data = "<projeto_input>")]
 async fn add_projeto(projeto_input: &str, db: &State<DB>) -> Result<serde_json::Value, std::io::Error> {
 
     let deserialized: Projeto = serde_json::from_str(projeto_input).unwrap();
