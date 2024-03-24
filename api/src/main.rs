@@ -30,7 +30,7 @@ async fn update_projeto(projeto_input: &str, db: &State<DB>) -> Result<serde_jso
 }
 
 #[post("/grupo", format = "json", data = "<grupo_input>")]
-async fn add_grupo(grupo_input: &str, db: &State<DB>) -> Result<serde_json::Value, std::io::Error> {
+async fn adicionar_grupo(grupo_input: &str, db: &State<DB>) -> Result<serde_json::Value, std::io::Error> {
 
     let deserialized: Grupo = serde_json::from_str(grupo_input).unwrap();
     let tasks = db
@@ -93,7 +93,7 @@ async fn rocket() -> _ {
     rocket::build()
         .mount(
             "/",
-                routes![get_all_projetos, deletar_projeto, add_projeto, add_grupo, get_grupo, update_projeto]
+                routes![get_all_projetos, deletar_projeto, add_projeto, adicionar_grupo, get_grupo, update_projeto]
         )
         .attach(CORS)
         .manage(db)

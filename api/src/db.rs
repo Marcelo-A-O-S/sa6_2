@@ -8,43 +8,50 @@ use surrealdb::{
     sql::{thing, Value},
 };
 
+use surrealdb::engine::remote::ws::Ws;
+use surrealdb::opt::auth::Root;
+use surrealdb::sql::Thing;
+use surrealdb::Surreal;
 
+
+
+async fn query_database(query: String, table_name: String) -> surrealdb::Result<()>{
+    let db = Surreal::new::<Ws>("127.0.0.1:8000").await?;
+
+    db.signin(Root {
+        username: "root".into(),
+        password: "root".into(),
+    })
+    .await?;
+
+    db.use_ns("teste").use_db("teste").await?;
+
+    let query = db
+        .query(query)
+        .bind(("table", table_name, ))
+        .await?;
+    dbg!(query);
+
+    Ok(())
+}
 
 
 
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Grupo {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub id: Option<String>,
-
-    #[serde(rename = "nomeGrupo")]
     pub nome_grupo: String,
-
-    #[serde(rename = "senhaGrupo")]
     pub senha_grupo: String,
-
-    #[serde(rename = "gerenciaProjeto")]
     pub gerencia_projeto: String,
-
-    #[serde(rename = "scrumMaster")]
     pub scrum_master: String,
-
-    #[serde(rename = "productOwner")]
     pub product_owner: String,
-
-    #[serde(rename = "equipeDev")]
     pub equipe_dev: String,
-
-    #[serde(rename = "descricaoGrupo")]
     pub descricao_grupo: String,
 
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub hora_criacao: Option<DateTime<Utc>>,
-
 }
-// <&str as Into<String>>::into("")
 impl From<Grupo> for Value {
     fn from(val: Grupo) -> Self {
         match val.id {
@@ -77,31 +84,17 @@ impl From<Grupo> for Value {
 impl Creatable for Grupo {}
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Projeto {
     #[serde(skip_serializing_if = "Option::is_none")]
     id: Option<String>,
-
-    #[serde(rename = "numeroCodigo")]
     numero_codigo: String,
-
-    #[serde(rename = "pertenceGrupo")]
     pertence_grupo: String,
-
-    #[serde(rename = "qualAtividade")]
     qual_atividade: String,
-
-    #[serde(rename = "quemResponsavel")]
     quem_responsavel: String,
-
-    #[serde(rename = "tempoSprint")]
     tempo_sprint: String,
-
-    #[serde(rename = "projetoDependencia")]
     projeto_dependencia: String,
 
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub hora_criacao: Option<DateTime<Utc>>,
 
 }
 
@@ -174,10 +167,14 @@ impl DB {
         let sql = "CREATE grupo SET nome_grupo = $nome_grupo, senha_grupo = $senha_grupo, gerencia_projeto = $gerencia_projeto, scrum_master = $scrum_master, product_owner = $product_owner, equipe_dev = $equipe_dev, descricao_grupo = $descricao_grupo";
         let serialized = serde_json::to_string(&nome_grupo).unwrap();
 
+
         let vars: BTreeMap<String, Value> =
             map!["nome_grupo".into() => Value::Strand(serialized.into())];
 
-        let res = self.execute(sql, Some(vars)).await?;
+        let res = self.execute(&sql, Some(vars)).await?;
+
+
+        query_database(sql.to_string(), "grupo".to_string()).await;
 
         let first_res = res.into_iter().next().expect("não recebeu resposta");
 
@@ -192,6 +189,7 @@ impl DB {
     ];
 
         let res = self.execute(sql, Some(vars)).await?;
+        query_database(sql.to_string(), "grupo".to_string()).await;
 
         let first_res = res.into_iter().next().expect("nome do grupo ou senha invalida");
 
@@ -200,6 +198,8 @@ impl DB {
 
 
         pub async fn add_projeto(&self, projeto: Projeto) -> Result<serde_json::Value, crate::error::Error> {
+
+
         let sql = "CREATE projeto SET numero_codigo = $numeroCodigo, pertence_grupo = $pertenceGrupo, qual_atividade = $qualAtividade, quem_responsavel = $quemResponsavel, tempo_sprint = $tempoSprint, projeto_dependencia = $projetoDependencia";
             let serialized = serde_json::to_string(&projeto).unwrap();
 
@@ -207,7 +207,10 @@ impl DB {
             map!["numero_codigo".into() => Value::Strand(serialized.into())];
         let res = self.execute(sql, Some(vars)).await?;
 
-        let first_res = res.into_iter().next().expect("não recebeu resposta");
+
+            query_database(sql.to_string(), "projeto".to_string()).await;
+
+            let first_res = res.into_iter().next().expect("não recebeu resposta");
 
         Ok(first_res.result?.into_json())
     }
@@ -218,6 +221,7 @@ impl DB {
         let sql = "SELECT * FROM projeto ORDER BY hora_criacao ASC";
 
         let res = self.execute(sql, None).await?;
+        query_database(sql.to_string(), "projeto".to_string()).await;
 
         let first_res = res.into_iter().next().expect("não recebeu resposta");
 
@@ -231,6 +235,7 @@ impl DB {
         let tid = format!("{}", id);
         let vars: BTreeMap<String, Value> = map!["th".into() => thing(&tid)?.into()];
         let _ = self.execute(sql, Some(vars)).await?;
+        query_database(sql.to_string(), "grupo".to_string()).await;
 
         Ok(AffectedRows { rows_affected: 1 })
     }
@@ -242,6 +247,7 @@ impl DB {
         let vars: BTreeMap<String, Value> =
             map!["numero_codigo".into() => Value::Strand(serialized.into())];
         let res = self.execute(sql, Some(vars)).await?;
+        query_database(sql.to_string(), "projeto".to_string()).await;
 
         let first_res = res.into_iter().next().expect("não recebeu resposta");
 
