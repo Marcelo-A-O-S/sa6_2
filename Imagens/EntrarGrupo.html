@@ -86,26 +86,7 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script>
-        import {getGrupo} from "../js.api/Apiaddgetgrupo.js"
-        document.addEventListener('DOMContentLoaded', function() {
-            var entrarBtn = document.getElementById('entrarBtn');
-            entrarBtn.addEventListener('click', function() {
-                var nome_grupo = document.getElementById('nomeGrupo').value;
-                var senha_grupo = document.getElementById('senhaGrupo').value;
-                
-                var storedNomeGrupo = localStorage.getItem('nomeGrupo');
-                var storedSenhaGrupo = localStorage.getItem('senhaGrupo');
-                
-                if (nomeGrupo === storedNomeGrupo && senhaGrupo === storedSenhaGrupo) {
-                    window.location.href = 'GerenciamentoTabela.html';       
-                }
-                
-                else {
-                    alert('Por favor, insira o nome do grupo e a senha.');
-                }
-            });
-        });
+    <script type="module" src="js/EntrarGrupo.js">
     </script>
 </body>
 </html>
