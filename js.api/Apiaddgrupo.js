@@ -1,12 +1,18 @@
 export class Apiaddgrupos {
-    async getApiaddgrupos() {
-        let Grupo = await fetch("htpp://127..0.0.1:8080/grupo/<grupo_input>", {
-            method: "POST"
-        })
-            .then((response) => {
-                return response.json()
+    async getApiaddgrupos(grupo_input) {
+        try {
+            let response = await fetch(`http://127.0.0.1:8080/grupo/${grupo_input}`, {
+                method: "POST"
             });
-        return Grupo;
-
+            if (response.ok) {
+                let data = await response.json();
+                return data;
+            } else {
+                throw new Error('Erro ao fazer a solicitação: ' + response.status);
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            return null; 
+        }
     }
 }
