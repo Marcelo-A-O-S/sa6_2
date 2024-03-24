@@ -234,4 +234,17 @@ impl DB {
 
         Ok(AffectedRows { rows_affected: 1 })
     }
+
+    pub async fn update_projeto(&self, projeto: Projeto) -> Result<serde_json::Value, crate::error::Error> {
+        let sql = "UPDATE projeto SET numero_codigo = $numeroCodigo, pertence_grupo = $pertenceGrupo, qual_atividade = $qualAtividade, quem_responsavel = $quemResponsavel, tempo_sprint = $tempoSprint, projeto_dependencia = $projetoDependencia WHERE id = $id";
+        let serialized = serde_json::to_string(&projeto).unwrap();
+
+        let vars: BTreeMap<String, Value> =
+            map!["numero_codigo".into() => Value::Strand(serialized.into())];
+        let res = self.execute(sql, Some(vars)).await?;
+
+        let first_res = res.into_iter().next().expect("não recebeu resposta");
+
+        Ok(first_res.result?.into_json())
+    }
 }

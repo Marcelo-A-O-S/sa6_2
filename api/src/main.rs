@@ -17,6 +17,18 @@ use rocket::http::Status;
 
 
 
+#[patch("/projeto/<projeto_input>")]
+async fn update_projeto(projeto_input: &str, db: &State<DB>) -> Result<serde_json::Value, std::io::Error> {
+
+    let deserialized: Projeto = serde_json::from_str(projeto_input).unwrap();
+
+    let tasks = db
+        .update_projeto(deserialized)
+        .await
+        .map_err(|_| std::io::Error::new(ErrorKind::Other, "deu merda tio"))?;
+    Ok(tasks)
+}
+
 #[post("/grupo/<grupo_input>")]
 async fn add_grupo(grupo_input: &str, db: &State<DB>) -> Result<serde_json::Value, std::io::Error> {
 
